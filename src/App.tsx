@@ -1,5 +1,12 @@
+import { BrowserRouter } from "react-router-dom";
+import Router from "./routes/router";
+
 function App() {
-  return <div className="text-2xl">Hello</div>;
+  return (
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  );
 }
 
 export default App;
