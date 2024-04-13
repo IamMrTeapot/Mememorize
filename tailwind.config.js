@@ -8,7 +8,7 @@ export default {
         "meme-header": "#f2ed8e",
       },
       fontFamily: {
-        urbanist: ["Urbanist", "sans-serif"],
+        urbanist: ["Urbanist", "sans-serif", "sans-francisco"],
       },
     },
   },
