@@ -3,10 +3,8 @@ import LoginButton from "../../../components/LoginButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 export default function UploadMeme({
-  isUploaded,
   setIsUploaded,
 }: {
-  isUploaded: boolean;
   setIsUploaded: (isUploaded: boolean) => void;
 }) {
   const navigate = useNavigate();
@@ -61,7 +59,9 @@ export default function UploadMeme({
         className="bg-[#D9D9D9] py-2 px-4 rounded-full w-full focus:outline-none focus:ring-1 focus:ring-black/50 font-urbanist text-black/80 placeholder:text-black/50"
         onChange={(e) => setDescription(e.target.value)}
       />
-      <LoginButton onClick={() => {}} color="green" isUpload={true} />
+      <LoginButton onClick={() => {
+        setIsUploaded(true);
+      }} color="green" isUpload={true} />
     </div>
   );
 }

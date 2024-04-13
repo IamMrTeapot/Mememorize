@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="w-full bg-meme-yellow min-h-[100vh] flex justify-center">
       <div className="flex flex-wrap justify-evenly items-center">
         <img src={MainMeme} alt="Main Meme" className="w-[350px] mt-12" />
-        <div className="flex flex-col my-10 mx-10">
+        <div className="flex flex-col my-10 mx-10 items-center">
           <h1 className="font-urbanist font-extrabold text-4xl m-6">
             MEMEMORIZE
           </h1>
