@@ -28,22 +28,24 @@ export default function LoginPage({
       alert("Login Success");
       updateAuthStatus(true);
     } else {
-      alert("ว้ายยยย");
+      alert("ว้ายยยย ลองกดอันอื่นดูน้าาาา");
     }
   };
 
   return (
     <main className="w-full bg-meme-yellow min-h-[100vh] ">
       <div className="flex flex-wrap justify-evenly items-center">
-        <div className="flex flex-col my-10 mx-10">
-          <div className="flex flex-row justify-center items-center my-2">
+        <div className="flex flex-col my-10 mx-4">
+          <div className="flex flex-row justify-start items-center mb-10">
             <button
               onClick={() => Redirect({ to: "/" })}
               className="font-semibold bg-white border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-100"
             >
               &lt;
             </button>
-            <p>login</p>
+            <div className="flex-grow"></div>
+            <p className="font-urbanist font-bold text-xl">LOG IN</p>
+            <div className="flex-grow"></div>
           </div>
           <input
             type="email"
@@ -52,7 +54,7 @@ export default function LoginPage({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="font-urbanist font-medium my-2"
+            className="font-urbanist font-medium my-2 rounded-lg p-3"
             required
           />
           <input
@@ -62,7 +64,7 @@ export default function LoginPage({
             value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
-            className="font-urbanist font-medium my-2"
+            className="font-urbanist font-medium my-2 rounded-lg p-3 mb-10"
             required
           />
           {colors.map((color, index) => (
@@ -73,11 +75,11 @@ export default function LoginPage({
               isRegister={false}
             />
           ))}
-          <div className="flex flex-row justify-end">
-            ลองเดาดูสิ ควรจะกดปุ่มไหน?{" "}
+          <div className="flex flex-row justify-end mt-10">
+            <p className="text-xs">ลองเดาดูสิ ควรจะกดปุ่มไหน? </p>
             <div
               onClick={() => handleGuess()}
-              className="text-answer-blue hover:cursor-pointer"
+              className="text-answer-blue hover:cursor-pointer text-xs "
             >
               หรือจะยอมแพ้ขอดูเฉลยก็กดมา
             </div>
