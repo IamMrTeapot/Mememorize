@@ -1,5 +1,6 @@
 import MemeCard from "../../components/MemeCard";
-import { MemeData } from "../../types/DIsplayTypes";
+import NavBar from "../../components/NavBar";
+import { MemeData } from "../../types/DisplayTypes";
 
 const mockImages: MemeData[] = [
   {
@@ -22,10 +23,8 @@ const mockImages: MemeData[] = [
 
 export default function MemesPage() {
   return (
-    <main className="w-full bg-meme-yellow min-h-[100vh] ">
-      <section>
-        <nav className="bg-meme-header">Header</nav>
-      </section>
+    <main className="w-full bg-meme-yellow min-h-[100vh] flex flex-col items-center ">
+      <NavBar name={"Temp Name"} />
       <section className="w-full flex flex-col gap-10 items-center py-6">
         {mockImages.map((meme, index) => (
           <MemeCard key={index} {...meme} />

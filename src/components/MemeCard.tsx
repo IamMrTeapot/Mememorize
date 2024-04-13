@@ -1,8 +1,8 @@
-import { MemeData } from "../types/DIsplayTypes";
+import { MemeData } from "../types/DisplayTypes";
 
 export default function MemeCard({ name, url, description }: MemeData) {
   return (
-    <div className="flex flex-col w-[80%] font-urbanist">
+    <div className="flex flex-col w-[85%] font-urbanist">
       <div className="bg-gradient-to-b from-zinc-500 to-gray-200 px-4 py-2 rounded-t-2xl font-extrabold text-xl">
         {name}
       </div>
