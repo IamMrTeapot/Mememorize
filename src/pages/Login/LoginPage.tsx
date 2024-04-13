@@ -1,8 +1,13 @@
 import { useState } from "react";
 import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
+import { Auth } from "aws-amplify";
 
-export default function LoginPage() {
+export default function LoginPage({
+  updateAuthStatus,
+}: {
+  updateAuthStatus: (authStatus: boolean) => void;
+}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [random] = useState<number>(Math.floor(Math.random() * 3));
@@ -12,9 +17,16 @@ export default function LoginPage() {
     alert(`The correct button is ${colors[random]}`);
   };
 
-  const handleLogin = (index: number) => () => {
+  const handleLogin = (index: number) => async () => {
     if (index === random) {
+      try {
+        const signInOutput = await Auth.signIn(email, password);
+        console.log(signInOutput);
+      } catch (error) {
+        console.log(error);
+      }
       alert("Login Success");
+      updateAuthStatus(true);
     } else {
       alert("ว้ายยยย");
     }
