@@ -10,7 +10,7 @@ export default function SuccessfulUploaded() {
         อัพโหลดเสร็จสิ้น
       </h1>
       <p className="font-urbanist font-normal text-sm text-[#8391A1] text-center mt-2 mb-5">
-        ละทิ้งคลาว แล้สมาดูความกาวกันเถอะ
+        ละทิ้งคลาว แล้วมาดูความกาวกันเถอะ
       </p>
       <LoginButton
         onClick={() => {

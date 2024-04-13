@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import MemeCard from "../../components/MemeCard";
 import NavBar from "../../components/NavBar";
 import { MemeData } from "../../types/DisplayTypes";
+import { fetchUserAttributes } from "aws-amplify/auth";
 
 const mockImages: MemeData[] = [
   {
@@ -22,9 +24,24 @@ const mockImages: MemeData[] = [
 ];
 
 export default function MemesPage() {
+  const [username, setUsername] = useState<string>("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const userAttributes = await fetchUserAttributes();
+        setUsername(userAttributes.nickname ?? "");
+        console.log(userAttributes);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUser();
+  }, []);
+
   return (
     <main className="w-full bg-meme-yellow min-h-[100vh] flex flex-col items-center ">
-      <NavBar name={"Temp Name"} />
+      <NavBar name={username} />
       <section className="w-full flex flex-col gap-10 items-center py-6">
         {mockImages.map((meme, index) => (
           <MemeCard key={index} {...meme} />

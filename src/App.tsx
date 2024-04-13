@@ -1,7 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./routes/router";
-import "@aws-amplify/ui-react/styles.css";
-
 import { Amplify } from "aws-amplify";
 import awsconfig from "./aws-exports";
 import { useState } from "react";

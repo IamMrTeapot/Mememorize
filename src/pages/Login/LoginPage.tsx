@@ -1,7 +1,8 @@
 import { useState } from "react";
 import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
-import { Auth } from "aws-amplify";
+import { signIn } from "aws-amplify/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage({
   updateAuthStatus,
@@ -13,6 +14,8 @@ export default function LoginPage({
   const [random] = useState<number>(Math.floor(Math.random() * 3));
   const colors = ["green", "yellow", "red"];
 
+  const navigate = useNavigate();
+
   const handleGuess = () => {
     alert(`The correct button is ${colors[random]}`);
   };
@@ -20,12 +23,21 @@ export default function LoginPage({
   const handleLogin = (index: number) => async () => {
     if (index === random) {
       try {
-        const signInOutput = await Auth.signIn(email, password);
+        const signInOutput = await signIn({
+          username: email,
+          password: password,
+        });
         console.log(signInOutput);
+        updateAuthStatus(signInOutput.isSignedIn);
+        alert(
+          signInOutput.isSignedIn ? "เข้าสู่ระบบสำเร็จ" : "เข้าสู่ระบบไม่สำเร็จ"
+        );
+        if (signInOutput.isSignedIn) {
+          navigate("/home");
+        }
       } catch (error) {
         console.log(error);
       }
-      alert("Login Success");
       updateAuthStatus(true);
     } else {
       alert("ว้ายยยย ลองกดอันอื่นดูน้าาาา");
