@@ -2,10 +2,15 @@ import { IoIosArrowBack } from "react-icons/io";
 import LoginButton from "../../../components/LoginButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { environment } from "../../../configs/environment";
 export default function UploadMeme({
   setIsUploaded,
+  username,
+  userid,
 }: {
   setIsUploaded: (isUploaded: boolean) => void;
+  username: string;
+  userid: string;
 }) {
   const navigate = useNavigate();
   const [image, setImage] = useState<File | null>(null);
@@ -14,6 +19,26 @@ export default function UploadMeme({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setImage(e.target.files[0]);
+    }
+  };
+
+  const uploadMeme = async () => {
+    const formData = new FormData();
+    formData.append("image", image as Blob);
+    formData.append("description", description);
+    formData.append("name", username);
+    try {
+      const response = await fetch(`${environment.backend.url}/upload/${userid}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.status === 201) {
+        setIsUploaded(true);
+      } else {
+        alert("Failed to upload meme");
+      }
+    } catch (error) {
+      alert("Failed to upload meme");
     }
   };
 
@@ -43,7 +68,7 @@ export default function UploadMeme({
         )}
         <input
           type="file"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/jpg"
           className="opacity-0 h-80 w-80"
           onChange={handleImageUpload}
         />
@@ -59,9 +84,13 @@ export default function UploadMeme({
         className="bg-[#D9D9D9] py-2 px-4 rounded-full w-full focus:outline-none focus:ring-1 focus:ring-black/50 font-urbanist text-black/80 placeholder:text-black/50"
         onChange={(e) => setDescription(e.target.value)}
       />
-      <LoginButton onClick={() => {
-        setIsUploaded(true);
-      }} color="green" isUpload={true} />
+      <LoginButton
+        onClick={() => {
+          uploadMeme();
+        }}
+        color="green"
+        isUpload={true}
+      />
     </div>
   );
 }
