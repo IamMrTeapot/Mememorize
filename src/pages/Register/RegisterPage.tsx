@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
 import { Wheel } from "react-custom-roulette";
+import { environment } from "../../configs/environment";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState<string>("");
@@ -21,11 +22,25 @@ export default function RegisterPage() {
     setTel((prevTel) => prevTel.slice(0, -1));
   };
 
-  const handleRegister = () => () => {
+  const handleRegister = async () => {
     if (username === "" || email === "" || password === "" || tel === "") {
       alert("กรอกข้อมูลไม่ครบ");
     } else {
       alert("ลงทะเบียนสำเร็จ");
+      const response = await fetch(`${environment.backend.url}/sns`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+      if (response.status === 200) {
+        console.log("subcribe sns success");
+      } else {
+        console.log("subcribe sns failed");
+      }
     }
   };
 

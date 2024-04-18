@@ -28,12 +28,18 @@ export default function UploadMeme({
     formData.append("description", description);
     formData.append("name", username);
     try {
-      const response = await fetch(`${environment.backend.url}/upload/${userid}`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${environment.backend.url}/upload/${userid}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       if (response.status === 201) {
         setIsUploaded(true);
+        fetch(`${environment.backend.url}/sns`, {
+          method: "GET",
+        });
       } else {
         alert("Failed to upload meme");
       }
