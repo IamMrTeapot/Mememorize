@@ -3,6 +3,7 @@ import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
 import { Wheel } from "react-custom-roulette";
 import { confirmSignUp, signUp } from "aws-amplify/auth";
+import { environment } from "../../configs/environment";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState<string>("");
@@ -54,6 +55,20 @@ export default function RegisterPage() {
         console.log("error signing up:", error);
       }
       alert("ลงทะเบียนสำเร็จ");
+      const response = await fetch(`${environment.backend.url}/sns`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+      if (response.status === 200) {
+        console.log("subcribe sns success");
+      } else {
+        console.log("subcribe sns failed");
+      }
     }
   };
 
