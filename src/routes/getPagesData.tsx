@@ -6,7 +6,13 @@ import RegisterApp from "../pages/Register/RegisterApp";
 import MemesApp from "../pages/Memes/MemesApp";
 import MoreMemesApp from "../pages/MoreMemes/MoreMemesApp";
 
-export const getPagesData = () =>
+export const getPagesData = ({
+  isAuthenticated,
+  updateAuthStatus,
+}: {
+  isAuthenticated: boolean;
+  updateAuthStatus: (authStatus: boolean) => void;
+}) =>
   [
     {
       path: "/",
@@ -18,7 +24,7 @@ export const getPagesData = () =>
     },
     {
       path: "/login",
-      element: <LoginApp />,
+      element: <LoginApp updateAuthStatus={updateAuthStatus} />,
     },
     {
       path: "/register",

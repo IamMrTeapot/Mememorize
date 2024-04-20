@@ -1,20 +1,44 @@
 import { useState } from "react";
 import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
+import { signIn } from "aws-amplify/auth";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
+export default function LoginPage({
+  updateAuthStatus,
+}: {
+  updateAuthStatus: (authStatus: boolean) => void;
+}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [random] = useState<number>(Math.floor(Math.random() * 3));
   const colors = ["green", "yellow", "red"];
 
+  const navigate = useNavigate();
+
   const handleGuess = () => {
     alert(`The correct button is ${colors[random]}`);
   };
 
-  const handleLogin = (index: number) => () => {
+  const handleLogin = (index: number) => async () => {
     if (index === random) {
-      alert("Login Success");
+      try {
+        const signInOutput = await signIn({
+          username: email,
+          password: password,
+        });
+        console.log(signInOutput);
+        updateAuthStatus(signInOutput.isSignedIn);
+        alert(
+          signInOutput.isSignedIn ? "เข้าสู่ระบบสำเร็จ" : "เข้าสู่ระบบไม่สำเร็จ"
+        );
+        if (signInOutput.isSignedIn) {
+          navigate("/memes");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      updateAuthStatus(true);
     } else {
       alert("ว้ายยยย ลองกดอันอื่นดูน้าาาา");
     }

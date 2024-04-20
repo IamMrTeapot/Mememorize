@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import LoginButton from "../../components/LoginButton";
 import Redirect from "../../routes/Redirect";
 import { Wheel } from "react-custom-roulette";
+import { confirmSignUp, signUp } from "aws-amplify/auth";
 import { environment } from "../../configs/environment";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState<string>("");
@@ -11,6 +13,11 @@ export default function RegisterPage() {
   const [tel, setTel] = useState<string>("");
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [mustSpin, setMustSpin] = useState(false);
+  const [verificationCode, setVerificationCode] = useState<string>("");
+  const [showVerificationInputBox, setShowVerificationInputBox] =
+    useState(false);
+
+  const navigate = useNavigate();
 
   const handleSpin = () => {
     const randomNum = Math.floor(Math.random() * 10);
@@ -26,21 +33,62 @@ export default function RegisterPage() {
     if (username === "" || email === "" || password === "" || tel === "") {
       alert("กรอกข้อมูลไม่ครบ");
     } else {
-      alert("ลงทะเบียนสำเร็จ");
-      const response = await fetch(`${environment.backend.url}/sns`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-        }),
-      });
-      if (response.status === 200) {
-        console.log("subcribe sns success");
-      } else {
-        console.log("subcribe sns failed");
+      try {
+        const { nextStep } = await signUp({
+          username: email,
+          password,
+          options: {
+            userAttributes: {
+              email,
+              nickname: username,
+            },
+            // optional
+            autoSignIn: true, // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
+          },
+        });
+
+        if (nextStep.signUpStep === "CONFIRM_SIGN_UP") {
+          setShowVerificationInputBox(true);
+        }
+      } catch (error) {
+        console.log("error signing up:", error);
       }
+    }
+  };
+
+  const handleSNSSubscribe = async () => {
+    const response = await fetch(`${environment.backend.url}/sns`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+    if (response.status === 200) {
+      console.log("subscribe sns success");
+    } else {
+      console.log("subscribe sns failed");
+    }
+  };
+
+  const handleConfirmVerification = async () => {
+    try {
+      const { isSignUpComplete } = await confirmSignUp({
+        username: email,
+        confirmationCode: verificationCode,
+      });
+      if (isSignUpComplete) {
+        await handleSNSSubscribe();
+      } else {
+        throw new Error("Sign up failed");
+      }
+      alert("Sign up success!");
+      navigate("/memes");
+    } catch (error) {
+      console.log("error confirming sign up:", error);
+      alert("Something went wrong");
     }
   };
 
@@ -109,6 +157,25 @@ export default function RegisterPage() {
             className="font-urbanist font-medium my-2 rounded-lg p-3"
             disabled
           />
+          {showVerificationInputBox && (
+            <div className="flex justify-between items-center">
+              <input
+                type="text"
+                id="verification-input"
+                name="verification-input"
+                value={verificationCode}
+                placeholder="Verification Code"
+                onChange={(e) => setVerificationCode(e.target.value)}
+                className="font-urbanist font-medium my-2 rounded-lg p-3 w-[60%]"
+              />
+              <button
+                onClick={handleConfirmVerification}
+                className="bg-blue-500 hover:bg-blue-600 text-white p-1 font-bold rounded w-[35%] h-[47px]"
+              >
+                Confirm
+              </button>
+            </div>
+          )}
           <Wheel
             mustStartSpinning={mustSpin}
             prizeNumber={selectedNumber}

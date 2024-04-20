@@ -1,8 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import { getPagesData } from "./getPagesData";
 
-const Router = () => {
-  const pagesData = getPagesData();
+const Router = ({
+  isAuthenticated,
+  updateAuthStatus,
+}: {
+  isAuthenticated: boolean;
+  updateAuthStatus: (authStatus: boolean) => void;
+}) => {
+  const pagesData = getPagesData({ isAuthenticated, updateAuthStatus });
   const pageRoutes = pagesData.map((pageRoute, index) => {
     return <Route key={index} {...pageRoute} />;
   });
