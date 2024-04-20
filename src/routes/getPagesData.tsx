@@ -32,10 +32,10 @@ export const getPagesData = ({
     },
     {
       path: "/memes",
-      element: <MemesApp />,
+      element: <MemesApp isAuthenticated={isAuthenticated} />,
     },
     {
       path: "/more-memes",
-      element: <MoreMemesApp />,
+      element: <MoreMemesApp isAuthenticated={isAuthenticated} />,
     },
   ] as unknown as RouteProps[];
