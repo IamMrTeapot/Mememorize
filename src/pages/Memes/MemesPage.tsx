@@ -4,10 +4,19 @@ import NavBar from "../../components/NavBar";
 import { MemeData } from "../../types/DisplayTypes";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { MemeServices } from "../../services/MemeServices";
+import { useNavigate } from "react-router-dom";
 
-export default function MemesPage() {
+export default function MemesPage({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   const [username, setUsername] = useState<string>("");
   const [memes, setMemes] = useState<MemeData[]>([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/home");
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function fetchMemes() {

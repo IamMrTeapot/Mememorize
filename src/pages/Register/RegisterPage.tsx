@@ -42,8 +42,6 @@ export default function RegisterPage() {
               email,
               nickname: username,
             },
-            // optional
-            autoSignIn: true, // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
           },
         });
 
@@ -85,7 +83,7 @@ export default function RegisterPage() {
         throw new Error("Sign up failed");
       }
       alert("Sign up success!");
-      navigate("/memes");
+      navigate("/login");
     } catch (error) {
       console.log("error confirming sign up:", error);
       alert("Something went wrong");

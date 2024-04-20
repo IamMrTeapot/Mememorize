@@ -3,9 +3,18 @@ import UploadMeme from "./components/UploadMeme";
 import SuccessfulUploaded from "./components/SuccessfulUploaded";
 import NavBar from "../../components/NavBar";
 import { fetchUserAttributes } from "aws-amplify/auth";
-export default function MoreMemesPage() {
+import { useNavigate } from "react-router-dom";
+export default function MoreMemesPage({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/home");
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function fetchUser() {

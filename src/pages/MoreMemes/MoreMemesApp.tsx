@@ -1,9 +1,13 @@
 import MoreMemesPage from "./MoreMemesPage";
 
-export default function MoreMemesApp() {
+export default function MoreMemesApp({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   return (
     <>
-      <MoreMemesPage />
+      <MoreMemesPage isAuthenticated={isAuthenticated} />
     </>
   );
 }
