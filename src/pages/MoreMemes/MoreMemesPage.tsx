@@ -5,7 +5,7 @@ import NavBar from "../../components/NavBar";
 import { fetchUserAttributes } from "aws-amplify/auth";
 export default function MoreMemesPage() {
   const [username, setUsername] = useState<string>("");
-  const userid = "mockid";
+  const userId = "mockid";
 
   useEffect(() => {
     async function fetchUser() {
@@ -29,7 +29,7 @@ export default function MoreMemesPage() {
           <UploadMeme
             setIsUploaded={setIsUploaded}
             username={username}
-            userid={userid}
+            userId={userId}
           />
         ) : (
           <SuccessfulUploaded />

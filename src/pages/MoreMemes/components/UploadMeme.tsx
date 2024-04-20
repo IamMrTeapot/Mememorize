@@ -6,11 +6,11 @@ import { environment } from "../../../configs/environment";
 export default function UploadMeme({
   setIsUploaded,
   username,
-  userid,
+  userId,
 }: {
   setIsUploaded: (isUploaded: boolean) => void;
   username: string;
-  userid: string;
+  userId: string;
 }) {
   const navigate = useNavigate();
   const [image, setImage] = useState<File | null>(null);
@@ -29,7 +29,7 @@ export default function UploadMeme({
     formData.append("name", username);
     try {
       const response = await fetch(
-        `${environment.backend.url}/upload/${userid}`,
+        `${environment.backend.url}/upload/${userId}`,
         {
           method: "POST",
           body: formData,
