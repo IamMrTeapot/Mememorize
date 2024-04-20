@@ -33,7 +33,7 @@ export default function LoginPage({
           signInOutput.isSignedIn ? "เข้าสู่ระบบสำเร็จ" : "เข้าสู่ระบบไม่สำเร็จ"
         );
         if (signInOutput.isSignedIn) {
-          navigate("/home");
+          navigate("/memes");
         }
       } catch (error) {
         console.log(error);
