@@ -1,6 +1,7 @@
 import { CiLogout } from "react-icons/ci";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { signOut } from "aws-amplify/auth";
 
 export default function NavBar({ name }: { name: string }) {
   const navigate = useNavigate();
@@ -10,7 +11,8 @@ export default function NavBar({ name }: { name: string }) {
   };
 
   const handleLogout = () => {
-    alert("Logout is not implemented yet");
+    signOut();
+    navigate("/home");
   };
 
   return (
